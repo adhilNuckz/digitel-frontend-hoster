@@ -1,0 +1,19 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Deploy to server
+      uses: appleboy/ssh-action@master
+      with:
+        host: 140.238.243.1
+        username: ubuntu
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          ~/deploy.sh

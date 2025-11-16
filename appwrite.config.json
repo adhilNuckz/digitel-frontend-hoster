@@ -1,0 +1,195 @@
+{
+    "projectId": "6918dfce0010ed4dd3c7",
+    "endpoint": "https://sgp.cloud.appwrite.io/v1",
+    "projectName": "digitel",
+    "settings": {
+        "services": {
+            "account": true,
+            "avatars": true,
+            "databases": true,
+            "locale": true,
+            "health": true,
+            "storage": true,
+            "teams": true,
+            "users": true,
+            "sites": true,
+            "functions": true,
+            "graphql": true,
+            "messaging": true
+        },
+        "auth": {
+            "methods": {
+                "jwt": true,
+                "phone": true,
+                "invites": true,
+                "anonymous": true,
+                "email-otp": true,
+                "magic-url": true,
+                "email-password": true
+            },
+            "security": {
+                "duration": 31536000,
+                "limit": 0,
+                "sessionsLimit": 10,
+                "passwordHistory": 0,
+                "passwordDictionary": false,
+                "personalDataCheck": false,
+                "sessionAlerts": false,
+                "mockNumbers": []
+            }
+        }
+    },
+    "functions": [
+        {
+            "$id": "6918e9cd001df2299f56",
+            "execute": [
+                "any",
+                "users"
+            ],
+            "name": "Deploy Function",
+            "enabled": true,
+            "logging": true,
+            "runtime": "node-22",
+            "scopes": [
+                "users.read"
+            ],
+            "events": [],
+            "schedule": "",
+            "timeout": 15,
+            "entrypoint": "src/main.js",
+            "commands": "npm install",
+            "specification": "s-1vcpu-512mb",
+            "path": "functions/Deploy Function"
+        }
+    ],
+    "tablesDB": [
+        {
+            "$id": "6918e2f8001f5600e504",
+            "name": "production",
+            "enabled": true
+        }
+    ],
+    "tables": [
+        {
+            "$id": "projects",
+            "$permissions": [
+                "create(\"users\")",
+                "read(\"users\")",
+                "update(\"users\")",
+                "delete(\"users\")"
+            ],
+            "databaseId": "6918e2f8001f5600e504",
+            "name": "projects",
+            "enabled": true,
+            "rowSecurity": false,
+            "columns": [
+                {
+                    "key": "userId",
+                    "type": "string",
+                    "required": true,
+                    "array": false,
+                    "size": 255,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "projectName",
+                    "type": "string",
+                    "required": true,
+                    "array": false,
+                    "size": 255,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "subdomain",
+                    "type": "string",
+                    "required": true,
+                    "array": false,
+                    "size": 20,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "status",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 50,
+                    "default": "pending",
+                    "encrypt": false
+                },
+                {
+                    "key": "url",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 255,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "createdAt",
+                    "type": "string",
+                    "required": true,
+                    "array": false,
+                    "size": 50,
+                    "default": null,
+                    "encrypt": false
+                }
+            ],
+            "indexes": [
+                {
+                    "key": "userId_index",
+                    "type": "key",
+                    "status": "available",
+                    "columns": [
+                        "userId"
+                    ],
+                    "orders": [
+                        "ASC"
+                    ]
+                },
+                {
+                    "key": "subdomain_unique",
+                    "type": "unique",
+                    "status": "available",
+                    "columns": [
+                        "subdomain"
+                    ],
+                    "orders": [
+                        "ASC"
+                    ]
+                }
+            ]
+        }
+    ],
+    "buckets": [
+        {
+            "$id": "6918e6950018706c31b6",
+            "$permissions": [
+                "create(\"users\")",
+                "read(\"users\")",
+                "update(\"users\")",
+                "delete(\"users\")"
+            ],
+            "fileSecurity": false,
+            "name": "project-files",
+            "enabled": true,
+            "maximumFileSize": 5000000000,
+            "allowedFileExtensions": [
+                "jpg",
+                "png",
+                "svg",
+                "gif",
+                "html",
+                "pdf",
+                "mp4",
+                "js"
+            ],
+            "compression": "none",
+            "encryption": true,
+            "antivirus": true
+        }
+    ]
+}

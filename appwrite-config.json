@@ -1,0 +1,87 @@
+{
+  "appwriteProjectId": "YOUR_PROJECT_ID",
+  "appwriteEndpoint": "https://cloud.appwrite.io/v1",
+  "domain": "digitel.site",
+  "serverIP": "140.238.243.1",
+  "collections": {
+    "projects": {
+      "attributes": [
+        {
+          "key": "userId",
+          "type": "string",
+          "size": 255,
+          "required": true
+        },
+        {
+          "key": "projectName",
+          "type": "string",
+          "size": 255,
+          "required": true
+        },
+        {
+          "key": "subdomain",
+          "type": "string",
+          "size": 63,
+          "required": true
+        },
+        {
+          "key": "status",
+          "type": "string",
+          "size": 50,
+          "required": true,
+          "default": "pending"
+        },
+        {
+          "key": "url",
+          "type": "string",
+          "size": 255,
+          "required": false
+        },
+        {
+          "key": "createdAt",
+          "type": "string",
+          "size": 50,
+          "required": true
+        }
+      ],
+      "indexes": [
+        {
+          "key": "userId_index",
+          "type": "key",
+          "attributes": ["userId"]
+        },
+        {
+          "key": "subdomain_unique",
+          "type": "unique",
+          "attributes": ["subdomain"]
+        }
+      ],
+      "permissions": {
+        "read": ["user:*"],
+        "create": ["user:*"],
+        "update": ["user:*"],
+        "delete": ["user:*"]
+      }
+    }
+  },
+  "storage": {
+    "buckets": {
+      "projectFiles": {
+        "name": "project-files",
+        "permissions": {
+          "read": ["user:*"],
+          "create": ["user:*"],
+          "update": ["user:*"],
+          "delete": ["user:*"]
+        },
+        "fileSecurity": true,
+        "enabled": true,
+        "maximumFileSize": 52428800,
+        "allowedFileExtensions": [],
+        "compression": "gzip",
+        "encryption": true,
+        "antivirus": true
+      }
+    }
+  }
+}
