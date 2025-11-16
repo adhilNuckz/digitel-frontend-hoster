@@ -10,7 +10,7 @@ export default function Landing() {
         <div className="text-center">
           <h1 className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6 animate-fadeIn">
             Deploy Your Frontend
-            <span className="text-neon-500 animate-glow"> Instantly</span>
+            <span className="text-neon-500"> Instantly</span>
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto animate-fadeIn">
             The simplest way to deploy your React, Vue, or any static site. 

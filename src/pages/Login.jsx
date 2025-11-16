@@ -62,7 +62,7 @@ export default function Login() {
       <div className="max-w-md w-full animate-fadeIn">
         <div className="bg-white dark:bg-dark-300 rounded-xl shadow-2xl shadow-neon-500/10 dark:shadow-neon-500/20 p-8 border border-gray-200 dark:border-neon-500/30">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-neon-500 animate-glow">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-neon-500">
               {isLogin ? 'Welcome Back' : 'Create Account'}
             </h2>
             <p className="text-gray-600 dark:text-gray-300 mt-2">
