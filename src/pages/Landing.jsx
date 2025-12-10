@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Rocket, Zap, Shield, Globe } from 'lucide-react';
+import { Rocket, Zap, Shield, Globe, Link2 } from 'lucide-react';
 import Button from '../components/Button';
 
 export default function Landing() {
@@ -24,7 +24,7 @@ export default function Landing() {
         </div>
 
         {/* Features */}
-        <div className="grid md:grid-cols-3 gap-8 mt-20">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mt-20">
           <div className="bg-white dark:bg-dark-300 p-6 rounded-xl shadow-md hover:shadow-2xl hover:shadow-neon-500/20 transition-all hover:scale-105 border border-transparent dark:border-neon-500/30">
             <div className="flex justify-center mb-4">
               <div className="bg-neon-500/10 dark:bg-neon-500/20 p-3 rounded-full">
@@ -50,6 +50,20 @@ export default function Landing() {
             </h3>
             <p className="text-gray-600 dark:text-gray-300 text-center">
               Get your own subdomain like yourname.digitel.site with SSL included.
+            </p>
+          </div>
+
+          <div className="bg-white dark:bg-dark-300 p-6 rounded-xl shadow-md hover:shadow-2xl hover:shadow-neon-500/20 transition-all hover:scale-105 border border-transparent dark:border-neon-500/30">
+            <div className="flex justify-center mb-4">
+              <div className="bg-neon-500/10 dark:bg-neon-500/20 p-3 rounded-full">
+                <Link2 className="h-8 w-8 text-neon-500 animate-pulse" />
+              </div>
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 dark:text-neon-500 mb-2 text-center">
+              Backend Integration
+            </h3>
+            <p className="text-gray-600 dark:text-gray-300 text-center">
+              Connect your frontend to any backend API. Proxy requests seamlessly without CORS issues.
             </p>
           </div>
 
