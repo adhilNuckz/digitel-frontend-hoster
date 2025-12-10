@@ -6,6 +6,7 @@ import { Plus, Globe, Trash2, ExternalLink, Clock } from 'lucide-react';
 import Button from '../components/Button';
 import Modal from '../components/Modal';
 import DeploymentForm from '../components/DeploymentForm';
+import FeedbackButton from '../components/FeedbackButton';
 
 export default function Dashboard() {
   const [projects, setProjects] = useState([]);
@@ -166,6 +167,9 @@ export default function Dashboard() {
           onCancel={() => setShowDeployModal(false)}
         />
       </Modal>
+
+      {/* Feedback Button */}
+      <FeedbackButton />
     </div>
   );
 }

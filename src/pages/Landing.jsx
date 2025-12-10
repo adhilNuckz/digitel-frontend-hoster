@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Rocket, Zap, Shield, Globe, Link2 } from 'lucide-react';
 import Button from '../components/Button';
+import FeedbackButton from '../components/FeedbackButton';
 
 export default function Landing() {
   return (
@@ -131,6 +132,9 @@ export default function Landing() {
           </Link>
         </div>
       </div>
+
+      {/* Feedback Button */}
+      <FeedbackButton />
     </div>
   );
 }
