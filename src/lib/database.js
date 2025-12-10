@@ -18,6 +18,9 @@ export const databaseService = {
           projectName: projectData.projectName,
           status: 'pending',
           createdAt: new Date().toISOString(),
+          hasBackend: projectData.hasBackend || false,
+          backendUrl: projectData.backendUrl || null,
+          apiPrefix: projectData.apiPrefix || null,
           ...projectData
         }
       );

@@ -9,7 +9,10 @@ import Input from './Input';
 export default function DeploymentForm({ onSuccess, onCancel }) {
   const [formData, setFormData] = useState({
     projectName: '',
-    subdomain: ''
+    subdomain: '',
+    hasBackend: false,
+    backendUrl: '',
+    apiPrefix: '/api'
   });
   const [files, setFiles] = useState([]);
   const [errors, setErrors] = useState({});
@@ -21,7 +24,14 @@ export default function DeploymentForm({ onSuccess, onCancel }) {
   const { user } = useAuth();
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
+    
+    // Handle checkbox
+    if (type === 'checkbox') {
+      setFormData(prev => ({ ...prev, [name]: checked }));
+      setErrors(prev => ({ ...prev, [name]: '' }));
+      return;
+    }
     
     // Clean subdomain input
     if (name === 'subdomain') {
@@ -66,6 +76,30 @@ export default function DeploymentForm({ onSuccess, onCancel }) {
       newErrors.files = 'Please select files to upload';
     }
 
+    // Validate backend fields if enabled
+    if (formData.hasBackend) {
+      if (!formData.backendUrl.trim()) {
+        newErrors.backendUrl = 'Backend URL is required';
+      } else {
+        try {
+          const url = new URL(formData.backendUrl);
+          if (url.protocol !== 'https:' && url.protocol !== 'http:') {
+            newErrors.backendUrl = 'URL must use http:// or https://';
+          }
+        } catch {
+          newErrors.backendUrl = 'Invalid URL format';
+        }
+      }
+
+      if (!formData.apiPrefix.trim()) {
+        newErrors.apiPrefix = 'API prefix is required';
+      } else if (!formData.apiPrefix.startsWith('/')) {
+        newErrors.apiPrefix = 'API prefix must start with /';
+      } else if (formData.apiPrefix === '/') {
+        newErrors.apiPrefix = 'Cannot proxy all requests (use specific path like /api)';
+      }
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -86,7 +120,10 @@ export default function DeploymentForm({ onSuccess, onCancel }) {
       const project = await databaseService.createProject(user.$id, {
         projectName: formData.projectName,
         subdomain: formData.subdomain,
-        status: 'pending'
+        status: 'pending',
+        hasBackend: formData.hasBackend,
+        backendUrl: formData.hasBackend ? formData.backendUrl : null,
+        apiPrefix: formData.hasBackend ? formData.apiPrefix : null
       });
 
       setUploadProgress(20);
@@ -124,7 +161,10 @@ export default function DeploymentForm({ onSuccess, onCancel }) {
       const deployResult = await deploymentService.deployProject({
         projectId: project.$id,
         subdomain: formData.subdomain,
-        files: filesData
+        files: filesData,
+        hasBackend: formData.hasBackend,
+        backendUrl: formData.hasBackend ? formData.backendUrl : null,
+        apiPrefix: formData.hasBackend ? formData.apiPrefix : null
       });
 
       if (!deployResult.success) {
@@ -184,8 +224,60 @@ export default function DeploymentForm({ onSuccess, onCancel }) {
         disabled={uploading}
       />
 
+      {/* Backend Integration Section */}
+      <div className="border border-gray-200 dark:border-neon-500/30 rounded-lg p-4 bg-gray-50 dark:bg-dark-300">
+        <div className="flex items-center mb-3">
+          <input
+            type="checkbox"
+            id="hasBackend"
+            name="hasBackend"
+            checked={formData.hasBackend}
+            onChange={handleChange}
+            disabled={uploading}
+            className="h-4 w-4 text-neon-500 focus:ring-neon-500 border-gray-300 rounded"
+          />
+          <label htmlFor="hasBackend" className="ml-2 block text-sm font-bold text-gray-700 dark:text-neon-500">
+            Enable Backend Integration (Optional)
+          </label>
+        </div>
+        
+        {formData.hasBackend && (
+          <div className="space-y-3 mt-3 pl-6 border-l-2 border-neon-500/30">
+            <Input
+              label="Backend URL"
+              name="backendUrl"
+              value={formData.backendUrl}
+              onChange={handleChange}
+              placeholder="https://api.example.com"
+              required={formData.hasBackend}
+              error={errors.backendUrl}
+              helperText="The URL where your backend API is hosted"
+              disabled={uploading}
+            />
+            
+            <Input
+              label="API Path Prefix"
+              name="apiPrefix"
+              value={formData.apiPrefix}
+              onChange={handleChange}
+              placeholder="/api"
+              required={formData.hasBackend}
+              error={errors.apiPrefix}
+              helperText="Requests to this path will be proxied to your backend (e.g., /api, /graphql)"
+              disabled={uploading}
+            />
+            
+            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-500/30 rounded p-3 text-xs text-blue-700 dark:text-blue-400">
+              <strong>Example:</strong> If you set API prefix to <code className="bg-blue-100 dark:bg-blue-800/50 px-1 rounded">/api</code>, 
+              then <code className="bg-blue-100 dark:bg-blue-800/50 px-1 rounded">yoursite.digitel.site/api/users</code> will proxy to 
+              <code className="bg-blue-100 dark:bg-blue-800/50 px-1 rounded">{formData.backendUrl || 'your-backend'}/api/users</code>
+            </div>
+          </div>
+        )}
+      </div>
+
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-gray-700 dark:text-neon-500 mb-2">
           Upload Build Folder <span className="text-red-500">*</span>
         </label>
         

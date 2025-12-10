@@ -9,7 +9,7 @@ export const deploymentService = {
   // Deploy a project to the server
   async deployProject(projectData) {
     try {
-      const { projectId, subdomain, files } = projectData;
+      const { projectId, subdomain, files, hasBackend, backendUrl, apiPrefix } = projectData;
       
       // Skip storage upload for now - send files directly to server
       console.log('Calling server API directly with files...');
@@ -22,7 +22,10 @@ export const deploymentService = {
         body: JSON.stringify({
           projectId,
           subdomain,
-          files: files // Send files array directly
+          files: files, // Send files array directly
+          hasBackend,
+          backendUrl,
+          apiPrefix
         })
       });
       
